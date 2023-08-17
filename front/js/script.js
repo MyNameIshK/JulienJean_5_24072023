@@ -12,8 +12,7 @@ fetch(url)
 
             // Le href du canapé
             const productElement = document.createElement("a");
-            productElement.classList.add("productId");
-            productElement.href = canape._id;
+            productElement.href = `./product.html?id=${canape._id}`;
 
             // L'image du canapé
             const imageElement = document.createElement("img");
@@ -22,12 +21,10 @@ fetch(url)
 
             // Le nom du canapé
             const nomElement = document.createElement("h3");
-            nomElement.classList.add("productName");
             nomElement.innerText = canape.name;
 
             // La description du canapé
             const categorieElement = document.createElement("p");
-            categorieElement.classList.add("productDescription");
             categorieElement.innerText = canape.description;
 
             // Attacher les balises au </a> du canapé
