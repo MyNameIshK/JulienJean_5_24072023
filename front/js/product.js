@@ -32,35 +32,41 @@ const getCanape = () => {
                 option.textContent = color
                 colorsSelect.appendChild(option);
             }
+
+            const addToCart = document.getElementById("addToCart");
+            addToCart.addEventListener("click", () => {
+                // Récupération de la quantité et de la couleur sélectionnées + ajout de l'alerte
+                const quantity = document.getElementById("quantity").value;
+                const color = document.getElementById("colors").value;
+                if (color == null || color === "" || quantity == null || quantity == 0) {
+                    alert("Merci de selectionner une couleur et une quantité")
+                    return
+                }
+
+                // Création d'un objet pour le produit à ajouter au panier
+
+                const addCanap = {
+                    quantity: quantity,
+                    color: color,
+                    id: id,
+                    price: data.price,
+                    name: data.name,
+                    imageUrl: data.imageUrl,
+                    altTxt: data.altTxt,
+                    description: data.description
+                };
+
+                // Vérification et ajout du contenu du panier dans le LocalStorage
+                let addProductLocalStorage = [];
+                if (localStorage.getItem("addToCart") !== null) {
+                    addProductLocalStorage = JSON.parse(localStorage.getItem("addToCart"));
+                }
+
+                addProductLocalStorage.push(addCanap);
+                localStorage.setItem("addToCart", JSON.stringify(addProductLocalStorage));
+            });
         });
 };
-
-const addToCart = document.getElementById("addToCart");
-addToCart.addEventListener("click", () => {
-    // Récupération de la quantité et de la couleur sélectionnées + ajout de l'alerte
-    const quantity = document.getElementById("quantity").value;
-    const color = document.getElementById("colors").value;
-    if (color == null || color === "" || quantity == null || quantity == 0) {
-        alert("Merci de selectionner une couleur et une quantité")
-        return
-    }
-
-    // Création d'un objet pour le produit à ajouter au panier
-    const addCanap = {
-        quantity: quantity,
-        color: color,
-        id: id,
-    };
-
-    // Vérification et ajout du contenu du panier dans le LocalStorage
-    let addProductLocalStorage = [];
-    if (localStorage.getItem("addToCart") !== null) {
-        addProductLocalStorage = JSON.parse(localStorage.getItem("addToCart"));
-    }
-
-    addProductLocalStorage.push(addCanap);
-    localStorage.setItem("addToCart", JSON.stringify(addProductLocalStorage));
-});
 
 // Fonction pour charger les données du produit
 getCanape();
