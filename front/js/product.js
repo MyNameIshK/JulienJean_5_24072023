@@ -49,7 +49,7 @@ addToCart.addEventListener("click", () => {
     const addCanap = {
         quantity: quantity,
         color: color,
-        _id: data._id
+        id: id
     };
 
     // Vérification et ajout du contenu du panier dans le LocalStorage
