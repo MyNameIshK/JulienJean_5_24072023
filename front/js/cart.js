@@ -3,8 +3,9 @@ const url = `http://localhost:3000/api/products/`;
 // Fonction pour générer les articles du panier
 async function generateCartItems() {
   const cartItemsContainer = document.getElementById("cart__items");
-  let totalAmount = 0;
-  let totalQuantity = 0;
+
+  let totalAmount = 0
+  let totalQuantity = 0
 
   cartItemsContainer.innerHTML = "";
 
@@ -18,13 +19,19 @@ async function generateCartItems() {
       const article = createCartItemElement(cartProduct, product);
       cartItemsContainer.appendChild(article);
 
-      totalAmount += cartProduct.price * cartProduct.quantity;
+      totalAmount += cartProduct.price * cartProduct.quantity
       totalQuantity += cartProduct.quantity;
     }
   }
 
   updateTotal(totalQuantity, totalAmount);
 }
+
+// Fonction pour supprimer un article du panier
+
+
+
+
 
 // Fonction pour créer un élément d'article du panier
 function createCartItemElement(cartProduct) {

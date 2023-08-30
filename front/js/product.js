@@ -46,7 +46,7 @@ const getCanape = () => {
                 // Création d'un objet pour le produit à ajouter au panier
 
                 const addCanap = {
-                    quantity: quantity,
+                    quantity: parseInt(quantity, 10),
                     color: color,
                     id: id,
                     price: data.price,
