@@ -72,7 +72,7 @@ function createCartItemElement(cartProduct) {
       if (cartItem) {
         const cartContent = JSON.parse(localStorage.getItem('addToCart')) || [];
         const itemRemove = cartContent.findIndex((item) => item.id === cartProduct.id);
-  
+
         if (itemRemove !== -1) {
           cartContent.splice(itemRemove, 1);
           localStorage.setItem('addToCart', JSON.stringify(cartContent));
@@ -86,7 +86,7 @@ function createCartItemElement(cartProduct) {
     });
   }
 
-return article;
+  return article;
 }
 
 
@@ -105,7 +105,7 @@ function updateTotal(totalQuantity, totalAmount) {
 // Détecter les changements dans la quantité des articles
 const cartItemsContainer = document.getElementById("cart__items");
 cartItemsContainer.addEventListener("input", () => {
-  
+
   updateTotalQuantity();
   updateTotalAmount();
 });
