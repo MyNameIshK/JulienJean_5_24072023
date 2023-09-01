@@ -1,3 +1,4 @@
+
 const url = `http://localhost:3000/api/products/`;
 
 // Fonction pour générer les articles du panier
@@ -27,10 +28,6 @@ async function generateCartItems() {
   updateTotal(totalQuantity, totalAmount);
 }
 
-// Fonction pour supprimer un article du panier
-
-
-
 
 
 // Fonction pour créer un élément d'article du panier
@@ -39,6 +36,7 @@ function createCartItemElement(cartProduct) {
   article.className = "cart__item";
   article.dataset.id = cartProduct._id;
   article.dataset.color = cartProduct.color;
+
 
   article.innerHTML = `
   <div class="cart__item__img">
@@ -63,8 +61,35 @@ function createCartItemElement(cartProduct) {
 </article>
   `;
 
-  return article;
+  // Supprimer un article
+
+  const deleteItem = article.querySelector('.deleteItem');
+
+  if (deleteItem) {
+    deleteItem.addEventListener('click', function () {
+      const cartItem = deleteItem.closest('.cart__item');
+
+      if (cartItem) {
+        const cartContent = JSON.parse(localStorage.getItem('addToCart')) || [];
+        const itemRemove = cartContent.findIndex((item) => item.id === cartProduct.id);
+  
+        if (itemRemove !== -1) {
+          cartContent.splice(itemRemove, 1);
+          localStorage.setItem('addToCart', JSON.stringify(cartContent));
+
+          cartItem.remove();
+          location.reload();
+        }
+        updateTotalQuantity();
+        updateTotalAmount();
+      }
+    });
+  }
+
+return article;
 }
+
+
 
 // Fonction pour mettre à jour le montant total et la quantité totale
 function updateTotal(totalQuantity, totalAmount) {
@@ -75,12 +100,16 @@ function updateTotal(totalQuantity, totalAmount) {
   totalPriceElement.textContent = totalAmount;
 }
 
+
+
 // Détecter les changements dans la quantité des articles
 const cartItemsContainer = document.getElementById("cart__items");
 cartItemsContainer.addEventListener("input", () => {
+  
   updateTotalQuantity();
   updateTotalAmount();
 });
+
 
 // Générer les articles et calculer le montant total
 generateCartItems();
