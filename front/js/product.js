@@ -64,7 +64,10 @@ const getCanape = () => {
 
                 addProductLocalStorage.push(addCanap);
                 localStorage.setItem("addToCart", JSON.stringify(addProductLocalStorage));
+
+                alert("L'article a été ajouté au panier.")
             });
+
         });
 };
 
