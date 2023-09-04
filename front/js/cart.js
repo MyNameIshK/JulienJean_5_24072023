@@ -1,4 +1,3 @@
-
 const url = `http://localhost:3000/api/products/`;
 
 // Fonction pour générer les articles du panier
@@ -28,8 +27,6 @@ async function generateCartItems() {
   updateTotal(totalQuantity, totalAmount);
 }
 
-
-
 // Fonction pour créer un élément d'article du panier
 function createCartItemElement(cartProduct) {
   const article = document.createElement("article");
@@ -58,7 +55,6 @@ function createCartItemElement(cartProduct) {
       </div>
     </div>
   </div>
-</article>
   `;
 
   // Supprimer un article
@@ -89,8 +85,6 @@ function createCartItemElement(cartProduct) {
   return article;
 }
 
-
-
 // Fonction pour mettre à jour le montant total et la quantité totale
 function updateTotal(totalQuantity, totalAmount) {
   const totalQuantityElement = document.getElementById("totalQuantity");
@@ -100,8 +94,6 @@ function updateTotal(totalQuantity, totalAmount) {
   totalPriceElement.textContent = totalAmount;
 }
 
-
-
 // Détecter les changements dans la quantité des articles
 const cartItemsContainer = document.getElementById("cart__items");
 cartItemsContainer.addEventListener("input", () => {
@@ -109,7 +101,6 @@ cartItemsContainer.addEventListener("input", () => {
   updateTotalQuantity();
   updateTotalAmount();
 });
-
 
 // Générer les articles et calculer le montant total
 generateCartItems();
