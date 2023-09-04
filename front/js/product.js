@@ -58,17 +58,17 @@ const getCanape = () => {
 
                 // Vérification et ajout du contenu du panier dans le LocalStorage
                 let addProductLocalStorage = [];
-                if (localStorage.getItem("addToCart") !== null) {
-                    addProductLocalStorage = JSON.parse(localStorage.getItem("addToCart"));
+                if (localStorage.getItem("Cart") !== null) {
+                    addProductLocalStorage = JSON.parse(localStorage.getItem("Cart"));
                 }
 
                 addProductLocalStorage.push(addCanap);
-                localStorage.setItem("addToCart", JSON.stringify(addProductLocalStorage));
+                localStorage.setItem("Cart", JSON.stringify(addProductLocalStorage));
 
                 alert("L'article a été ajouté au panier.")
             });
 
-        });
+        })
 };
 
 // Fonction pour charger les données du produit
