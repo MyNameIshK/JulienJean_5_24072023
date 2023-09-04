@@ -53,7 +53,7 @@ function createCartItemElement(cartProduct) {
     </div>
     </article>
   `;
-  
+
   article.getElementsByClassName('itemQuantity').item(0).addEventListener('change', function () {
     changeQuantityInCart(cartProduct.id, this.value);
   });
@@ -98,10 +98,11 @@ function updateTotal() {
   totalPriceElement.textContent = totalAmount;
 }
 
-function changeQuantityInCart(product_id, new_quantity){
+// Fonction pour mettre à jour les quantités dans le localStorage
+function changeQuantityInCart(product_id, new_quantity) {
   const cartData = JSON.parse(localStorage.getItem("Cart")) || [];
   for (var i in cartData) {
-    if(cartData[i].id == product_id){
+    if (cartData[i].id == product_id) {
       cartData[i].quantity = new_quantity;
       localStorage.setItem('Cart', JSON.stringify(cartData));
       updateTotal();
@@ -150,7 +151,7 @@ form.addEventListener('submit', function (e) {
       city: form.city,
       email: form.email,
     }
-    
+
     //Créer un tableau qui contient les identifiants des produits du panier.
     //Si un produit est en plusieurs quantités, l'identifiant du produit doit être listé plusieurs fois dans le tableau
 
