@@ -1,5 +1,9 @@
 const url = `http://localhost:3000/api/products/`;
 
+if(isEmptyCard()){
+  document.getElementsByClassName('cart__order').item(0).style.display = "none";
+}
+
 // Fonction pour générer les articles du panier
 async function generateCartItems() {
   const cartItemsContainer = document.getElementById("cart__items");
@@ -11,7 +15,7 @@ async function generateCartItems() {
   const cartData = JSON.parse(localStorage.getItem("Cart")) || [];
 
   for (const cartProduct of cartData) {
-    const response = await fetch(url);
+    const response = await fetch(`${url}/${cartProduct.id}`);
     const product = await response.json();
 
     if (product) {
@@ -55,7 +59,7 @@ function createCartItemElement(cartProduct) {
   `;
 
   article.getElementsByClassName('itemQuantity').item(0).addEventListener('change', function () {
-    changeQuantityInCart(cartProduct.id, this.value);
+    changeQuantityInCart(cartProduct.id, cartProduct.color, parseInt(this.value));
   });
 
   // Supprimer un article
@@ -67,18 +71,22 @@ function createCartItemElement(cartProduct) {
 
       if (cartItem) {
         const cartContent = JSON.parse(localStorage.getItem('Cart')) || [];
-        const itemIndex = cartContent.findIndex((item) => item._id === cartProduct._id);
+        const itemIndex = cartContent.findIndex((item) => item.id === cartProduct.id && cartProduct.color === item.color);
 
         if (itemIndex !== -1) {
           cartContent.splice(itemIndex, 1);
           localStorage.setItem('Cart', JSON.stringify(cartContent));
 
           cartItem.remove();
+          if(isEmptyCard()){
+            document.getElementsByClassName('cart__order').item(0).style.display = "none";
+          }
           updateTotal();
         }
       }
     });
   }
+
   return article;
 }
 
@@ -99,10 +107,10 @@ function updateTotal() {
 }
 
 // Fonction pour mettre à jour les quantités dans le localStorage
-function changeQuantityInCart(product_id, new_quantity) {
+function changeQuantityInCart(product_id, product_color, new_quantity) {
   const cartData = JSON.parse(localStorage.getItem("Cart")) || [];
   for (var i in cartData) {
-    if (cartData[i].id == product_id) {
+    if (cartData[i].id == product_id && cartData[i].color == product_color) {
       cartData[i].quantity = new_quantity;
       localStorage.setItem('Cart', JSON.stringify(cartData));
       updateTotal();
@@ -141,26 +149,72 @@ form.email.addEventListener('change', function () {
 })
 
 // Soumission du formulaire
-form.addEventListener('submit', function (e) {
+form.addEventListener('submit', async function (e) {
   e.preventDefault();
-  if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)) {
-    contact = {
-      firstName: form.firstName,
-      lastName: form.lastName,
-      address: form.address,
-      city: form.city,
-      email: form.email,
+  // Crée un tableau qui contient les identifiants des produits du panier.
+  const cartData = JSON.parse(localStorage.getItem('Cart')) || [];
+  const identifiantsProduits = [];
+
+  for (const cartProduct of cartData) {
+    for (let i = 0; i < cartProduct.quantity; i++) {
+      identifiantsProduits.push(cartProduct.id);
+    }
+  }
+  if (isEmptyCard()){
+    alert("Le panier est vide");
+    return ;
+  }
+  // Vérifie la validité des champs du formulaire
+  if ((form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)) {
+    const contact = {
+      firstName: form.firstName.value,
+      lastName: form.lastName.value,
+      address: form.address.value,
+      city: form.city.value,
+      email: form.email.value,
     }
 
-    //Créer un tableau qui contient les identifiants des produits du panier.
-    //Si un produit est en plusieurs quantités, l'identifiant du produit doit être listé plusieurs fois dans le tableau
+    // Crée l'objet de commande
+    const order = {
+      contact,
+      products: identifiantsProduits,
+      orderID:
+        Math.random().toString(36).substring(2, 15) +
+        Math.random().toString(36).substring(2, 15),
+    }
 
-    //Appeler l'api orderProducts en lui passant le contact et le tableau de produit, pour récupérer le numéro de commande.
+    // Envoie la requête POST à l'API
+    try {
+      const response = await fetch("http://localhost:3000/api/products/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(order),
+      });
 
-    //Une fois le numéro de commande récupéré, redirigier vers confirmation.html
+      if (response.ok) {
+        const cartData = await response.json();
+
+        if (cartData && cartData.orderId) {
+          localStorage.removeItem("Cart");
+          window.location.href = `./confirmation.html?orderId=${cartData.orderId}`;
+        }
+      } else {
+        console.error("Erreur lors du chargement de la page confirmation.html");
+      }
+    } catch (error) {
+      console.error("Une erreur s'est produite lors de la soumission du formulaire :", error);
+    }
+  } else {
+    alert("Formulaire invalide. Veuillez vérifier que toutes les données ont été saisies correctement et réessayer.");
   }
-  form.submit();
 });
+
+function isEmptyCard(){
+  const cartData = JSON.parse(localStorage.getItem('Cart')) || [];
+  return cartData.length === 0;
+}
 
 // Validation Regex
 function validRegex(field, regexPattern, errorMessage, validationMessage) {
