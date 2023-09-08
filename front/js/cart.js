@@ -218,7 +218,7 @@ function isEmptyCard(){
 }
 
 // Validation Regex
-function validRegex(field, regexPattern, errorMessage, validationMessage) {
+function validRegex(field, regexPattern, errorMessage) {
 
   let regex = new RegExp(
     regexPattern,
@@ -228,7 +228,6 @@ function validRegex(field, regexPattern, errorMessage, validationMessage) {
   let errorElement = field.nextElementSibling;
 
   if (test) {
-    errorElement.innerHTML = validationMessage
     return true
   } else {
     errorElement.innerHTML = errorMessage
@@ -238,25 +237,25 @@ function validRegex(field, regexPattern, errorMessage, validationMessage) {
 
 // Validation First Name
 const validFirstName = function (inputfirstName) {
-  return validRegex(inputfirstName, '^[A-Za-zÀ-ÿ\- \'çÇ]+$', 'Veuillez ne renseigner uniquement des lettres ou caractère', 'Prénom valide');
+  return validRegex(inputfirstName, '^[A-Za-zÀ-ÿ\- \'çÇ]+$', 'Veuillez ne renseigner uniquement des lettres ou caractère');
 }
 
 // Validation Last Name
 const validLastName = function (inputlastName) {
-  return validRegex(inputlastName, '^[A-Za-zÀ-ÿ\- \'çÇ]+$', 'Veuillez ne renseigner uniquement des lettres', 'Nom valide');
+  return validRegex(inputlastName, '^[A-Za-zÀ-ÿ\- \'çÇ]+$', 'Veuillez ne renseigner uniquement des lettres');
 }
 
 // Validation Address
 const validAddress = function (inputaddress) {
-  return validRegex(inputaddress, '^[A-Za-zÀ-ÿ\-, \'çÇ0-9]+$', 'Adresse non valide', 'Adresse valide');
+  return validRegex(inputaddress, '^[A-Za-zÀ-ÿ\-, \'çÇ0-9]+$', 'Adresse non valide');
 }
 
 // Validation City
 const validCity = function (inputcity) {
-  return validRegex(inputcity, '^[A-Za-zÀ-ÿ\-, \'çÇ]+$', 'Veuillez ne renseigner uniquement un nom de ville', 'Ville valide');
+  return validRegex(inputcity, '^[A-Za-zÀ-ÿ\-, \'çÇ]+$', 'Veuillez ne renseigner uniquement un nom de ville');
 }
 
 // Validation Email
 const validEmail = function (inputemail) {
-  return validRegex(inputemail, '^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'E-mail non valide', 'E-mail valide');
+  return validRegex(inputemail, '^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'E-mail non valide');
 }
