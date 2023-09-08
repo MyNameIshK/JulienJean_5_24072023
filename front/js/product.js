@@ -1,6 +1,7 @@
 const params = new URL(document.location).searchParams;
 const id = params.get("id");
 
+// Récupération des informations depuis le fichier package.json
 const url = 'http://localhost:3000/api/products/' + id;
 const data = {};
 
