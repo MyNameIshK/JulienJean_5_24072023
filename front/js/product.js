@@ -36,6 +36,7 @@ const getCanape = () => {
 
             const addToCart = document.getElementById("addToCart");
             addToCart.addEventListener("click", () => {
+
                 // Récupération de la quantité et de la couleur sélectionnées + ajout de l'alerte
                 const quantity = document.getElementById("quantity").value;
                 const color = document.getElementById("colors").value;
@@ -45,7 +46,6 @@ const getCanape = () => {
                 }
 
                 // Création d'un objet pour le produit à ajouter au panier
-
                 const addCanap = {
                     quantity: parseInt(quantity, 10),
                     color: color,
