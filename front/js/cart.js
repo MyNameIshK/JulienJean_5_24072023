@@ -1,7 +1,7 @@
 // Récupération des informations depuis le fichier package.json
 const url = `http://localhost:3000/api/products/`;
 
-if(isEmptyCard()){
+if (isEmptyCard()) {
   document.getElementsByClassName('cart__order').item(0).style.display = "none";
 }
 
@@ -79,7 +79,7 @@ function createCartItemElement(cartProduct) {
           localStorage.setItem('Cart', JSON.stringify(cartContent));
 
           cartItem.remove();
-          if(isEmptyCard()){
+          if (isEmptyCard()) {
             document.getElementsByClassName('cart__order').item(0).style.display = "none";
           }
           updateTotal();
@@ -161,9 +161,9 @@ form.addEventListener('submit', async function (e) {
       identifiantsProduits.push(cartProduct.id);
     }
   }
-  if (isEmptyCard()){
+  if (isEmptyCard()) {
     alert("Le panier est vide");
-    return ;
+    return;
   }
   // Vérifie la validité des champs du formulaire
   if ((form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)) {
@@ -212,7 +212,7 @@ form.addEventListener('submit', async function (e) {
   }
 });
 
-function isEmptyCard(){
+function isEmptyCard() {
   const cartData = JSON.parse(localStorage.getItem('Cart')) || [];
   return cartData.length === 0;
 }
