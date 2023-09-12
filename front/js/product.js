@@ -41,7 +41,7 @@ const getCanape = () => {
                 const quantity = document.getElementById("quantity").value;
                 const color = document.getElementById("colors").value;
                 if (color == null || color === "" || quantity == null || quantity == 0 || quantity > 100) {
-                    alert("Merci de selectionner une couleur et une quantité")
+                    alert("Merci de selectionner une couleur et une quantité inférieure ou égale à 100")
                     return
                 }
 
