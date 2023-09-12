@@ -40,7 +40,7 @@ const getCanape = () => {
                 // Récupération de la quantité et de la couleur sélectionnées + ajout de l'alerte
                 const quantity = document.getElementById("quantity").value;
                 const color = document.getElementById("colors").value;
-                if (color == null || color === "" || quantity == null || quantity == 0) {
+                if (color == null || color === "" || quantity == null || quantity == 0 || quantity > 100) {
                     alert("Merci de selectionner une couleur et une quantité")
                     return
                 }
