@@ -63,6 +63,7 @@ const getCanape = () => {
                     cartData = JSON.parse(localStorage.getItem("Cart"));
                 }
 
+                // Vérification si un produit identique est déjà présent dans le panier
                 let actualProductQuantityInCart = 0;
                 for (var i in cartData) {
                     if (cartData[i].id == addCanap.id && cartData[i].color == addCanap.color) {
@@ -85,7 +86,6 @@ const getCanape = () => {
 
                 alert("L'article a été ajouté au panier.");
             });
-
 
             // Fonction pour mettre à jour les quantités dans le localStorage
             function changeQuantityInCart(product_id, product_color, new_quantity) {

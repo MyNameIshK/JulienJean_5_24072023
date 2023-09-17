@@ -129,7 +129,6 @@ function changeQuantityInCart(product_id, product_color, new_quantity) {
 // Générer les articles et calculer le montant total
 generateCartItems();
 
-
 // ******** RegExp ******** //
 
 let form = document.querySelector('.cart__order__form')
