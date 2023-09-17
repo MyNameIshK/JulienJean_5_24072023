@@ -14,6 +14,7 @@ const getCanape = () => {
             // Création d'un élément d'image pour l'image du produit
             const imageElement = document.createElement("img");
             imageElement.setAttribute("src", data.imageUrl);
+            imageElement.setAttribute("alt", data.altTxt);
             document.querySelector(".item__img").appendChild(imageElement);
 
             // Ajout du titre du produit
@@ -50,7 +51,6 @@ const getCanape = () => {
                     quantity: parseInt(quantity, 10),
                     color: color,
                     id: id,
-                    price: data.price,
                     name: data.name,
                     imageUrl: data.imageUrl,
                     altTxt: data.altTxt,

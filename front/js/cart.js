@@ -16,14 +16,18 @@ async function generateCartItems() {
   const cartData = JSON.parse(localStorage.getItem("Cart")) || [];
 
   for (const cartProduct of cartData) {
-    const response = await fetch(`${url}/${cartProduct.id}`);
+
+    const response = await fetch(`${url}${cartProduct.id}`);
     const product = await response.json();
 
     if (product) {
+      const price = product.price;
+      console.log(price)
+
       const article = createCartItemElement(cartProduct, product);
       cartItemsContainer.appendChild(article);
 
-      totalAmount += cartProduct.price * cartProduct.quantity;
+      totalAmount += price * cartProduct.quantity;
       totalQuantity += cartProduct.quantity;
     }
   }
@@ -32,7 +36,7 @@ async function generateCartItems() {
 }
 
 // Fonction pour créer un élément d'article du panier
-function createCartItemElement(cartProduct) {
+function createCartItemElement(cartProduct, product) {
   const article = document.createElement("article");
 
   article.innerHTML = `
@@ -44,7 +48,7 @@ function createCartItemElement(cartProduct) {
       <div class="cart__item__content__description">
         <h2>${cartProduct.name}</h2>
         <p>${cartProduct.color}</p>
-        <p>${cartProduct.price} €</p>
+        <p>${product.price} €</p>
       </div>
       <div class="cart__item__content__settings">
         <div class="cart__item__content__settings__quantity">
@@ -72,7 +76,7 @@ function createCartItemElement(cartProduct) {
 
       if (cartItem) {
         const cartContent = JSON.parse(localStorage.getItem('Cart')) || [];
-        const itemIndex = cartContent.findIndex((item) => item.id === cartProduct.id && cartProduct.color === item.color);
+        const itemIndex = cartContent.findIndex((item) => item.id === cartProduct.id && cartProduct.color === item.color && cartProduct.quantity === item.quantity);
 
         if (itemIndex !== -1) {
           cartContent.splice(itemIndex, 1);
@@ -92,13 +96,16 @@ function createCartItemElement(cartProduct) {
 }
 
 // Fonction pour mettre à jour le montant total et la quantité totale
-function updateTotal() {
+async function updateTotal() {
   const cartData = JSON.parse(localStorage.getItem("Cart")) || [];
   totalQuantity = 0;
   totalAmount = 0;
   for (const cartProduct of cartData) {
+    const response = await fetch(`${url}${cartProduct.id}`);
+    const product = await response.json();
+
     totalQuantity += parseInt(cartProduct.quantity, 10);
-    totalAmount += cartProduct.price * cartProduct.quantity;
+    totalAmount += product.price * cartProduct.quantity;
   }
   const totalQuantityElement = document.getElementById("totalQuantity");
   const totalPriceElement = document.getElementById("totalPrice");
