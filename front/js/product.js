@@ -58,16 +58,46 @@ const getCanape = () => {
                 };
 
                 // Vérification et ajout du contenu du panier dans le LocalStorage
-                let addProductLocalStorage = [];
+                let cartData = [];
                 if (localStorage.getItem("Cart") !== null) {
-                    addProductLocalStorage = JSON.parse(localStorage.getItem("Cart"));
+                    cartData = JSON.parse(localStorage.getItem("Cart"));
                 }
 
-                addProductLocalStorage.push(addCanap);
-                localStorage.setItem("Cart", JSON.stringify(addProductLocalStorage));
+                let actualProductQuantityInCart = 0;
+                for (var i in cartData) {
+                    if (cartData[i].id == addCanap.id && cartData[i].color == addCanap.color) {
+                        actualProductQuantityInCart += cartData[i].quantity;
+                    }
+                }
 
-                alert("L'article a été ajouté au panier.")
+                if (actualProductQuantityInCart > 0) {
+                    let newQuantity = actualProductQuantityInCart + addCanap.quantity;
+                    if (newQuantity > 100) {
+                        newQuantity = 100;
+                        alert("La quantité maximum est atteinte, la quantité est réduite à 100.");
+                    }
+                    changeQuantityInCart(addCanap.id, addCanap.color, newQuantity);
+                }
+                else {
+                    cartData.push(addCanap);
+                    localStorage.setItem("Cart", JSON.stringify(cartData));
+                }
+
+                alert("L'article a été ajouté au panier.");
             });
+
+
+            // Fonction pour mettre à jour les quantités dans le localStorage
+            function changeQuantityInCart(product_id, product_color, new_quantity) {
+                const cartData = JSON.parse(localStorage.getItem("Cart")) || [];
+                for (var i in cartData) {
+                    if (cartData[i].id == product_id && cartData[i].color == product_color) {
+                        cartData[i].quantity = new_quantity;
+                        localStorage.setItem('Cart', JSON.stringify(cartData));
+                        return;
+                    }
+                }
+            }
 
         })
 };

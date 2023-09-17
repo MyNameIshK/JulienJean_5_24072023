@@ -22,7 +22,6 @@ async function generateCartItems() {
 
     if (product) {
       const price = product.price;
-      console.log(price)
 
       const article = createCartItemElement(cartProduct, product);
       cartItemsContainer.appendChild(article);
@@ -76,7 +75,7 @@ function createCartItemElement(cartProduct, product) {
 
       if (cartItem) {
         const cartContent = JSON.parse(localStorage.getItem('Cart')) || [];
-        const itemIndex = cartContent.findIndex((item) => item.id === cartProduct.id && cartProduct.color === item.color && cartProduct.quantity === item.quantity);
+        const itemIndex = cartContent.findIndex((item) => item.id === cartProduct.id && cartProduct.color === item.color);
 
         if (itemIndex !== -1) {
           cartContent.splice(itemIndex, 1);
